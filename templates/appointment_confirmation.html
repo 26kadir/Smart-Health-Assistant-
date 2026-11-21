@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Appointment Confirmation - Smart Health Assistant</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef6ff, #f8fbff);
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #0f172a;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .nav-links a,
+        .footer-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover,
+        .footer-links a:hover {
+            color: #2563eb;
+        }
+
+        .page-container {
+            width: min(1100px, 92%);
+            margin: 40px auto;
+        }
+
+        .success-card,
+        .details-section {
+            background: #ffffff;
+            border: 1px solid #dbeafe;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+        }
+
+        .success-card {
+            padding: 40px 28px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .success-card h1 {
+            font-size: 29px;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .success-card > p {
+            max-width: 680px;
+            margin: 0 auto;
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 9px 18px;
+            border-radius: 999px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .appointment-id-box {
+            margin: 25px auto 0;
+            max-width: 500px;
+            padding: 18px;
+            border-radius: 14px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .appointment-id-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 7px;
+        }
+
+        .appointment-id {
+            font-size: 23px;
+            font-weight: 800;
+            color: #2563eb;
+            letter-spacing: 1px;
+            overflow-wrap: anywhere;
+        }
+
+        .details-section {
+            margin-top: 25px;
+            padding: 28px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 750;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            padding: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 13px;
+            min-width: 0;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 7px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+        }
+
+        .detail-value {
+            color: #0f172a;
+            font-size: 15px;
+            font-weight: 650;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .info-section,
+        .notice-section {
+            margin-top: 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .info-section {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        .notice-section {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+        }
+
+        .info-icon,
+        .notice-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .info-icon {
+            background: #dbeafe;
+        }
+
+        .notice-icon {
+            background: #ffedd5;
+        }
+
+        .info-content h3,
+        .notice-content h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .info-content h3 {
+            color: #1e3a8a;
+        }
+
+        .notice-content h3 {
+            color: #9a3412;
+        }
+
+        .info-content ul {
+            padding-left: 20px;
+            color: #475569;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .notice-content p {
+            color: #7c2d12;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .action-buttons {
+            margin-top: 26px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 20px;
+            border-radius: 11px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #0f766e;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #115e59;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+        }
+
+        .page-footer {
+            margin-top: 40px;
+            padding: 28px 20px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .footer-brand {
+            color: #0f172a;
+            font-size: 17px;
+            font-weight: 750;
+            margin-bottom: 8px;
+        }
+
+        .page-footer p {
+            line-height: 1.7;
+            margin-bottom: 7px;
+        }
+
+        .footer-disclaimer {
+            max-width: 700px;
+            margin: 10px auto;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .footer-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .copyright {
+            margin-top: 18px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 14px 5%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+                gap: 14px;
+            }
+
+            .page-container {
+                width: 94%;
+                margin: 24px auto;
+            }
+
+            .success-card {
+                padding: 30px 18px;
+            }
+
+            .success-card h1 {
+                font-size: 24px;
+            }
+
+            .details-section {
+                padding: 21px 17px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .info-section,
+            .notice-section {
+                padding: 18px;
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 16px;
+            }
+
+            .brand-subtitle {
+                font-size: 10px;
+            }
+
+            .success-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 32px;
+            }
+
+            .success-card h1 {
+                font-size: 22px;
+            }
+
+            .appointment-id {
+                font-size: 19px;
+            }
+
+            .detail-item {
+                padding: 14px;
+            }
+
+            .detail-value {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="brand">
+            <div class="brand-icon">🩺</div>
+            <div class="brand-text">
+                <span class="brand-name">Smart Health Assistant</span>
+                <span class="brand-subtitle">Digital Health Screening &amp; Support</span>
+            </div>
+        </a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('appointments') }}">Appointments</a>
+        </div>
+    </nav>
+
+    <main class="page-container">
+
+        <section class="success-card">
+            <div class="success-icon">✓</div>
+
+            <h1>Appointment Request Submitted</h1>
+
+            <p>
+                Your appointment request has been submitted successfully.
+                Keep your appointment request ID for future reference.
+                Your request is not confirmed until it is reviewed by the
+                appropriate staff.
+            </p>
+
+            <div class="status-badge">
+                {{ appointment.status or "Request Submitted" }}
+            </div>
+
+            <div class="appointment-id-box">
+                <div class="appointment-id-label">Appointment Request ID</div>
+                <div class="appointment-id">
+                    {{ appointment.appointment_id or "Not available" }}
+                </div>
+            </div>
+        </section>
+
+        <section class="details-section">
+            <h2 class="section-title">📋 Appointment Details</h2>
+
+            <div  class="details-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Patient Name</span>
+                    <div class="detail-value">
+                        {{ appointment.patient_name or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Age Group</span>
+                    <div class="detail-value">
+                        {{ appointment.age_group or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Contact Number</span>
+                    <div class="detail-value">
+                        {{ appointment.phone or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Email</span>
+                    <div class="detail-value">
+                        {{ appointment.email or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Department</span>
+                    <div class="detail-value">
+                        {{ appointment.department or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Doctor</span>
+                    <div class="detail-value">
+                        {{ appointment.doctor or "Any Available Doctor" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Appointment Date</span>
+                    <div class="detail-value">
+                        {{ appointment.appointment_date_display or appointment.appointment_date or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Appointment Time</span>
+                    <div class="detail-value">
+                        {{ appointment.appointment_time or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Priority</span>
+                    <div class="detail-value">
+                        {{ appointment.priority or "Routine" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Request Created</span>
+                    <div class="detail-value">
+                        {{ appointment.created_at or "Not available" }}
+                    </div>
+                </div>
+
+                <div class="detail-item full-width">
+                    <span class="detail-label">Reason for Consultation</span>
+                    <div class="detail-value">
+                        {{ appointment.reason or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item full-width">
+                    <span class="detail-label">Reported Symptoms</span>
+                    <div class="detail-value">
+                        {{ appointment.symptoms or "Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <div class="info-icon">ℹ️</div>
+
+            <div class="info-content">
+                <h3>What happens next?</h3>
+
+                <ul>
+                    <li>Your appointment request has been recorded for review.</li>
+                    <li>Check the Appointments page for the latest available status.</li>
+                    <li>Keep your appointment request ID for reference.</li>
+                    <li>Do not assume the appointment is confirmed until you receive confirmation.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="notice-section">
+            <div class="notice-icon">⚕️</div>
+
+            <div class="notice-content">
+                <h3>Important Medical Notice</h3>
+
+                <p>
+                    This application is a preliminary health screening
+                    and appointment request support system. It does not
+                    provide a confirmed medical diagnosis.
+                </p>
+
+                <p>
+                    If you experience severe symptoms or a medical
+                    emergency, seek immediate professional medical care.
+                    Do not wait for an appointment response.
+                </p>
+            </div>
+        </section>
+
+        <div class="action-buttons">
+            <a
+                href="{{ url_for('appointments') }}"
+                class="btn btn-primary"
+            >
+                📅 View Appointments
+            </a>
+
+            <a
+                href="{{ url_for('appointment') }}"
+                class="btn btn-secondary"
+            >
+                + New Appointment
+            </a>
+
+            <a
+                href="{{ url_for('home') }}"
+                class="btn btn-outline"
+            >
+                ← Back to Home
+            </a>
+        </div>
+        <div class="detail-item">
+                    <span class="detail-label">Patient Name</span>
+                    <div class="detail-value">
+                        {{ appointment.patient_name or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Age Group</span>
+                    <div class="detail-value">
+                        {{ appointment.age_group or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Contact Number</span>
+                    <div class="detail-value">
+                        {{ appointment.phone or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Email</span>
+                    <div class="detail-value">
+                        {{ appointment.email or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Department</span>
+                    <div class="detail-value">
+                        {{ appointment.department or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Doctor</span>
+                    <div class="detail-value">
+                        {{ appointment.doctor or "Any Available Doctor" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Appointment Date</span>
+                    <div class="detail-value">
+                        {{ appointment.appointment_date_display or appointment.appointment_date or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Appointment Time</span>
+                    <div class="detail-value">
+                        {{ appointment.appointment_time or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Priority</span>
+                    <div class="detail-value">
+                        {{ appointment.priority or "Routine" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Request Created</span>
+                    <div class="detail-value">
+                        {{ appointment.created_at or "Not available" }}
+                    </div>
+                </div>
+
+                <div class="detail-item full-width">
+                    <span class="detail-label">Reason for Consultation</span>
+                    <div class="detail-value">
+                        {{ appointment.reason or "Not provided" }}
+                    </div>
+                </div>
+
+                <div class="detail-item full-width">
+                    <span class="detail-label">Reported Symptoms</span>
+                    <div class="detail-value">
+                        {{ appointment.symptoms or "Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <div class="info-icon">ℹ️</div>
+
+            <div class="info-content">
+                <h3>What happens next?</h3>
+
+                <ul>
+                    <li>Your appointment request has been recorded for review.</li>
+                    <li>Check the Appointments page for the latest available status.</li>
+                    <li>Keep your appointment request ID for reference.</li>
+                    <li>Do not assume the appointment is confirmed until you receive confirmation.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="notice-section">
+            <div class="notice-icon">⚕️</div>
+
+            <div class="notice-content">
+                <h3>Important Medical Notice</h3>
+
+                <p>
+                    This application is a preliminary health screening
+                    and appointment request support system. It does not
+                    provide a confirmed medical diagnosis.
+                </p>
+
+                <p>
+                    If you experience severe symptoms or a medical
+                    emergency, seek immediate professional medical care.
+                    Do not wait for an appointment response.
+                </p>
+            </div>
+        </section>
+
+       

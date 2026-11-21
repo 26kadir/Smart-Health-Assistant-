@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assessment Report | Smart Health Assistant</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef8fb, #f8fbfd);
+            color: #17324d;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255,255,255,0.97);
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 18px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #087f8c;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #31556d;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #087f8c;
+        }
+
+        .main {
+            max-width: 1100px;
+            margin: 45px auto;
+            padding: 0 22px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #dff6f8;
+            color: #087f8c;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .page-title h1 {
+            font-size: 38px;
+            color: #163b56;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #718696;
+            font-size: 16px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 12px 40px rgba(20,70,90,0.10);
+            border: 1px solid #e5eef2;
+            margin-bottom: 25px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e8eef1;
+            margin-bottom: 25px;
+        }
+
+        .assessment-icon {
+            width: 65px;
+            height: 65px;
+            min-width: 65px;
+            border-radius: 18px;
+            background: #e7f8fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 31px;
+        }
+
+        .assessment-info {
+            flex: 1;
+        }
+
+        .assessment-info h2 {
+            color: #163b56;
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .assessment-info p {
+            color: #7a8d99;
+            font-size: 14px;
+        }
+
+        .risk {
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+            background: #fff4d8;
+            color: #856404;
+        }
+
+        .section-title {
+            color: #163b56;
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, #f4fbfc, #fbfefe);
+            border: 1px solid #dcecef;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+
+        .profile-card h3 {
+            color: #087f8c;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .profile-item {
+            background: white;
+            border: 1px solid #e4eef1;
+            border-radius: 13px;
+            padding: 15px;
+        }
+
+        .profile-label {
+            display: block;
+            color: #7a8d99;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .profile-value {
+            color: #17324d;
+            font-size: 15px;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        .symptom-box {
+            background: #f5fafb;
+            border: 1px solid #e1eef1;
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+        .symptom-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .symptom-tag {
+            background: white;
+            border: 1px solid #cfe5e8;
+            color: #315f6c;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .empty-text {
+            color: #7a8d99;
+            font-size: 14px;
+        }
+        /* Analysis Summary */
+.analysis-card {
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #eef9fb, #f7fcfd);
+    border: 1px solid #d9edf1;
+}
+
+.analysis-card h3 {
+    color: #087f8c;
+    margin-bottom: 12px;
+}
+
+.analysis-card p {
+    color: #5e7483;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* Possible Health Categories */
+.category-box {
+    margin-top: 25px;
+    padding: 22px;
+    border-radius: 18px;
+    background: #f8fbfc;
+    border: 1px solid #e2edf0;
+}
+
+.category-box h3 {
+    color: #163b56;
+    margin-bottom: 15px;
+}
+
+.category-list {
+    padding-left: 20px;
+}
+
+.category-list li {
+    color: #536d7b;
+    margin-bottom: 9px;
+    line-height: 1.5;
+}
+
+/* Information Cards */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.info-card {
+    border-radius: 18px;
+    padding: 23px;
+    border: 1px solid #e5eef2;
+    background: #fff;
+}
+
+.info-card h3 {
+    font-size: 17px;
+    margin-bottom: 15px;
+    color: #163b56;
+}
+
+.info-card ul {
+    padding-left: 20px;
+}
+
+.info-card li {
+    color: #627988;
+    line-height: 1.6;
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+.care-card {
+    background: #f0fbf8;
+    border-color: #cdeee5;
+}
+
+.care-card h3 {
+    color: #087f8c;
+}
+
+.medical-card {
+    background: #f7f8fc;
+    border-color: #e0e4ee;
+}
+
+.medical-card h3 {
+    color: #4b5870;
+}
+
+/* Red Flags */
+.redflag-card {
+    background: #fff4f4;
+    border: 1px solid #f2cccc;
+    border-radius: 18px;
+    padding: 23px;
+    margin-top: 20px;
+}
+
+.redflag-card h3 {
+    color: #a33a3a;
+    font-size: 17px;
+    margin-bottom: 15px;
+}
+
+.redflag-card ul {
+    padding-left: 20px;
+}
+
+.redflag-card li {
+    color: #704b4b;
+    line-height: 1.6;
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+/* Additional Information */
+.additional-box {
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 25px;
+}
+
+.additional-box h3 {
+    color: #163b56;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.additional-box p {
+    color: #627988;
+    line-height: 1.7;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+/* Assessment Details */
+.assessment-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.meta-item {
+    background: #f8fafb;
+    border: 1px solid #e5edf0;
+    border-radius: 14px;
+    padding: 15px;
+}
+
+.meta-label {
+    display: block;
+    color: #82929c;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.meta-value {
+    color: #405c6d;
+    font-size: 14px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+/* Action Buttons */
+.action-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    padding: 13px 21px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(0,0,0,.10);
+}
+
+.btn-primary {
+    background: #087f8c;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #e8f3f5;
+    color: #246170;
+}
+
+.btn-dark {
+    background: #17324d;
+    color: #fff;
+}
+
+/* Disclaimer and Footer */
+.disclaimer {
+    margin-top: 28px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: #fff9e9;
+    border: 1px solid #f0dfad;
+    color: #735e2b;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #82929c;
+    font-size: 13px;
+}
+
+.footer strong {
+    color: #087f8c;
+}
+
+/* Responsive Design */
+@media (max-width: 800px) {
+    .navbar {
+        padding: 16px 5%;
+        flex-direction: column;
+        gap: 13px;
+    }
+
+    .nav-links {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-title h1 {
+        font-size: 30px;
+    }
+
+    .result-card {
+        padding: 22px;
+    }
+
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-grid,
+    .info-grid,
+    .assessment-meta {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        margin: 30px auto;
+        padding: 0 14px;
+    }
+
+    .result-card {
+        padding: 17px;
+        border-radius: 18px;
+    }
+
+    .profile-card,
+    .analysis-card,
+    .category-box,
+    .info-card,
+    .redflag-card,
+    .additional-box {
+        padding: 17px;
+    }
+
+    .page-title h1 {
+        font-size: 26px;
+    }
+
+    .nav-links a {
+        font-size: 13px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            🩺 Smart Health Assistant
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('appointments') }}">Appointments</a>
+        </div>
+    </nav>
+
+    <main class="main">
+
+        <div class="page-title">
+            <span class="badge">
+                AI-ASSISTED HEALTH ASSESSMENT
+            </span>
+
+            <h1>Assessment Report</h1>
+
+            <p>
+                Review your submitted health information
+                and personalized next steps.
+            </p>
+        </div>
+
+        <section class="result-card">
+
+            <div class="result-header">
+
+                <div class="assessment-icon">🩺</div>
+
+                <div class="assessment-info">
+                    <h2>Health Assessment Summary</h2>
+
+                    <p>
+                        Your information has been reviewed
+                        based on the symptoms and details provided.
+                    </p>
+                </div>
+
+                <div class="risk">
+                    Risk Level: {{ result.risk or "General" }}
+                </div>
+
+            </div>
+
+            <!-- Patient Profile -->
+
+            <div class="profile-card">
+
+                <h3>👤 Patient Profile</h3>
+
+                <div class="profile-grid">
+
+                    <div class="profile-item">
+                        <span class="profile-label">Patient Name</span>
+                        <span class="profile-value">
+                            {{ result.patient_name or "Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="profile-item">
+                        <span class="profile-label">Gender</span>
+                        <span class="profile-value">
+                            {{ result.gender or "Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="profile-item">
+                        <span class="profile-label">Age Group</span>
+                        <span class="profile-value">
+                            {{ result.age_group or "Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="profile-item">
+                        <span class="profile-label">Temperature</span>
+                        <span class="profile-value">
+                            {{ result.temperature or "Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="profile-item">
+                        <span class="profile-label">Temperature Status</span>
+                        <span class="profile-value">
+                            {{ result.temperature_status or "Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="profile-item">
+                        <span class="profile-label">Symptom Duration</span>
+                        <span class="profile-value">
+                            {{ result.duration or "Not provided" }}
+                        </span>
+                    </div>
+
+                    <div class="profile-item">
+                        <span class="profile-label">Symptom Pattern</span>
+                        <span class="profile-value">
+                            {{ result.pattern or "Not provided" }}
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Detected Symptoms -->
+
+            <div class="symptom-box">
+
+                <h3 class="section-title">
+                    🔍 Detected Symptoms
+                </h3>
+
+                <div class="symptom-list">
+
+                    {% if result.symptoms %}
+
+                        {% for symptom in result.symptoms %}
+                            <span class="symptom-tag">
+                                {{ symptom }}
+                            </span>
+                        {% endfor %}
+
+                    {% else %}
+
+                        <span class="empty-text">
+                            No symptoms were detected.
+                        </span>
+
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <!-- Assessment Summary -->
+
+            <div class="analysis-card">
+                <h3>📋 Assessment Summary</h3>
+
+                <p>
+                    {{ result.summary or
+                    "No assessment summary is available." }}
+                </p>
+            </div>
+
+            <!-- Possible Health Categories -->
+
+            <div class="category-box">
+
+                <h3>🧠 Possible Health Categories</h3>
+
+                {% if result.possible_categories %}
+
+                    <ul class="category-list">
+                        {% for category in result.possible_categories %}
+                            <li>{{ category }}</li>
+                        {% endfor %}
+                    </ul>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No health categories were identified.
+                    </p>
+
+                {% endif %}
+
+            </div>
+            <!-- Next Steps and Medical Evaluation -->
+
+            <div class="info-grid">
+
+                <div class="info-card care-card">
+
+                    <h3>🌿 Personalized Next Steps</h3>
+
+                    {% if result.next_steps %}
+
+                        <ul>
+                            {% for step in result.next_steps %}
+                                <li>{{ step }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    {% else %}
+
+                        <p class="empty-text">
+                            No personalized next steps are available.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="info-card medical-card">
+
+                    <h3>🏥 Medical Evaluation</h3>
+
+                    {% if result.medical_evaluation %}
+
+                        <ul>
+                            {% for item in result.medical_evaluation %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    {% else %}
+
+                        <p class="empty-text">
+                            No medical evaluation guidance is available.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Red Flag Monitor -->
+
+            <div class="redflag-card">
+
+                <h3>🚨 Red-Flag Monitor</h3>
+
+                {% if result.red_flags %}
+
+                    <ul>
+                        {% for flag in result.red_flags %}
+                            <li>{{ flag }}</li>
+                        {% endfor %}
+                    </ul>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No specific red-flag symptoms were reported.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Additional Information -->
+
+            <div class="additional-box">
+
+                <h3>📝 Additional Information</h3>
+
+                <p>
+                    {{ result.additional_info or
+                    "No additional information provided." }}
+                </p>
+
+            </div>
+
+            <!-- Assessment Information -->
+
+            <div class="assessment-meta">
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        Assessment Date & Time
+                    </span>
+
+                    <span class="meta-value">
+                        {{ result.created_at or "Not available" }}
+                    </span>
+                </div>
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        Assessment Type
+                    </span>
+
+                    <span class="meta-value">
+                        Symptom-Based Health Assessment
+                    </span>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+
+            <div class="action-section">
+
+                <a href="{{ url_for('home') }}"
+                   class="btn btn-primary">
+                    ➕ New Assessment
+                </a>
+
+                <a href="{{ url_for('history') }}"
+                   class="btn btn-secondary">
+                    📚 View History
+                </a>
+
+                <a href="{{ url_for('appointments') }}"
+                   class="btn btn-dark">
+                    📅 Book Appointment
+                </a>
+
+            </div>
+
+            <!-- Disclaimer -->
+
+            <div class="disclaimer">
+
+                <strong>⚠️ Important:</strong>
+
+                This assessment is intended for informational
+                and educational purposes only. It does not
+                provide a medical diagnosis and should not
+                replace consultation with a qualified healthcare
+                professional.
+
+                If symptoms are severe, worsening, or associated
+                with emergency warning signs, seek appropriate
+                medical attention promptly.
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        <p>
+            <strong>Smart Health Assistant</strong>
+            &nbsp;|&nbsp;
+            AI-Assisted Health Information System
+        </p>
+
+        <p style="margin-top: 8px;">
+            Designed for educational and project purposes.
+        </p>
+
+    </footer>
+
+</body>
+</html>

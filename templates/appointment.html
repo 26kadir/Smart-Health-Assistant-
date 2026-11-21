@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Book Doctor Appointment | Smart Health Assistant
+    </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #0f766e,
+                #2563eb
+            );
+            color: white;
+            padding: 18px 6%;
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.16);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 21px;
+        }
+
+        .brand p {
+            margin: 3px 0 0;
+            font-size: 12px;
+            opacity: 0.88;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 8px;
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.20);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h2 {
+            margin: 0 0 8px;
+            font-size: 31px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px 16px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .flash.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .flash.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 25px;
+        }
+
+        .info-box strong {
+            color: #1d4ed8;
+        }
+
+        .info-box p {
+            margin: 6px 0 0;
+            color: #475569;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .appointment-card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+            box-shadow:
+                0 10px 35px rgba(15, 23, 42, 0.08);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .section-title h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #1e293b;
+        }
+
+        .section-title p {
+            margin: 3px 0 0;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: #334155;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #172033;
+            background: white;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        textarea {
+            min-height: 115px;
+            resize: vertical;
+        }
+
+        .help-text {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        .consent-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 5px;
+        }
+
+        .consent-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .consent-label input {
+            width: auto;
+            margin-top: 3px;
+            accent-color: #2563eb;
+        }
+
+        .consent-text {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 10px;
+            padding: 13px 22px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #0f766e
+            );
+            color: white;
+            box-shadow:
+                0 5px 15px rgba(37, 99, 235, 0.20);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                0 7px 18px rgba(37, 99, 235, 0.25);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #334155;
+        }
+
+        @media (max-width: 800px) {
+            .nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .appointment-card {
+                padding: 22px;
+            }
+
+            .page-heading h2 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .container {
+                margin-top: 25px;
+            }
+
+            .appointment-card {
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .nav-links a {
+                flex: 1;
+                text-align: center;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="nav">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🏥
+                </div>
+
+                <div>
+                    <h1>
+                        Smart Health Assistant
+                    </h1>
+
+                    <p>
+                        Digital Health Screening & Appointment Support
+                    </p>
+                </div>
+
+            </div>
+
+            <nav class="nav-links">
+
+                <a href="{{ url_for('home') }}">
+                    Home
+                </a>
+
+                <a href="{{ url_for('history') }}">
+                    History
+                </a>
+
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('appointments') }}">
+                    Appointments
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="page-heading">
+
+            <h2>
+                Book a Doctor Appointment
+            </h2>
+
+            <p>
+                Submit your consultation request by providing
+                the patient's basic information, preferred
+                department, doctor and appointment details.
+            </p>
+
+        </div>
+
+
+        {% with messages = get_flashed_messages(
+            with_categories=true
+        ) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <div class="info-box">
+
+            <strong>
+                ℹ️ Important
+            </strong>
+
+            <p>
+                This form submits an appointment request for
+                the Smart Health Assistant prototype.
+                It does not represent a real hospital booking
+                or guarantee doctor availability.
+            </p>
+
+        </div>
+
+
+        <form
+            action="{{ url_for('appointment') }}"
+            method="POST"
+        >
+
+            <div class="appointment-card">
+
+
+                <!-- PATIENT INFORMATION -->
+
+                <section class="section">
+
+                    <div class="section-title">
+
+                        <div class="section-icon">
+                            👤
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Patient Information
+                            </h3>
+
+                            <p>
+                                Enter the patient's basic details.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="patient_name">
+                                Patient Name
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="patient_name"
+                                name="patient_name"
+                                placeholder="Enter patient's full name"
+                                maxlength="100"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Mobile Number
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="10-digit mobile number"
+                                inputmode="numeric"
+                                maxlength="10"
+                                pattern="[0-9]{10}"
+                                required
+                            >
+
+                            <div class="help-text">
+                                Enter a valid 10-digit mobile number.
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="patient@example.com"
+                                maxlength="120"
+                            >
+
+                            <div class="help-text">
+                                Optional email address.
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="age_group">
+                                Age Group
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="age_group"
+                                name="age_group"
+                                required
+                            >
+
+                                <option value="">
+                                    Select age group
+                                </option>
+
+                                <option value="Child">
+                                    Child (0–12)
+                                </option>
+
+                                <option value="Teenager">
+                                    Teenager (13–17)
+                                </option>
+
+                                <option value="Adult">
+                                    Adult (18–59)
+                                </option>
+
+                                <option value="Senior">
+                                    Senior (60+)
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- APPOINTMENT DETAILS -->
+
+                <section class="section">
+
+                    <div class="section-title">
+
+                        <div class="section-icon">
+                            🩺
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Appointment Details
+                            </h3>
+
+                            <p>
+                                Select your preferred department,
+                                doctor and schedule.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="department">
+                                Department
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="department"
+                                name="department"
+                                required
+                            >
+
+                                <option value="">
+                                    Select department
+                                </option>
+
+                                {% for department in departments %}
+
+                                    <option value="{{ department }}">
+                                        {{ department }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="doctor">
+                                Preferred Doctor
+                            </label>
+
+                            <select
+                                id="doctor"
+                                name="doctor"
+                            >
+
+                                <option value="">
+                                    Any Available Doctor
+                                </option>
+
+                                {% for doctor in doctors %}
+
+                                    <option value="{{ doctor }}">
+                                        {{ doctor }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="appointment_date">
+                                Preferred Date
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="date"
+                                id="appointment_date"
+                                name="appointment_date"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="appointment_time">
+                                Preferred Time
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="appointment_time"
+                                name="appointment_time"
+                                required
+                            >
+
+                                <option value="">
+                                    Select time slot
+                                </option>
+
+                                {% for slot in time_slots %}
+
+                                    <option value="{{ slot }}">
+                                        {{ slot }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="priority">
+                                Appointment Priority
+                            </label>
+
+                            <select
+                                id="priority"
+                                name="priority"
+                            >
+
+                                {% for item in priorities %}
+
+                                    <option value="{{ item }}">
+                                        {{ item }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- CONSULTATION INFORMATION -->
+
+                <section class="section">
+
+                    <div class="section-title">
+
+                        <div class="section-icon">
+                            📝
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Consultation Information
+                            </h3>
+
+                            <p>
+                                Tell us why you would like to consult
+                                a doctor.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+
+                            <label for="reason">
+                                Reason for Consultation
+                                <span class="required">*</span>
+                            </label>
+
+                            <textarea
+                                id="reason"
+                                name="reason"
+                                placeholder="Describe the main reason for your appointment..."
+                                maxlength="1000"
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="symptoms">
+                                Current Symptoms
+                            </label>
+
+                            <textarea
+                                id="symptoms"
+                                name="symptoms"
+                                placeholder="Example: fever, cough, headache, stomach pain..."
+                                maxlength="1000"
+                            ></textarea>
+
+                            <div class="help-text">
+                                Optional. Mention any current symptoms
+                                relevant to the consultation.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- CONSENT -->
+
+                <section class="section">
+
+                    <div class="section-title">
+
+                        <div class="section-icon">
+                            🔒
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Consent & Confirmation
+                            </h3>
+
+                            <p>
+                                Please review the information before
+                                submitting your request.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="consent-box">
+
+                        <label
+                            class="consent-label"
+                            for="consent"
+                        >
+
+                            <input
+                                type="checkbox"
+                                id="consent"
+                                name="consent"
+                                value="yes"
+                                required
+                            >
+
+                            <span class="consent-text">
+                                I confirm that the information provided
+                                in this appointment request is accurate
+                                to the best of my knowledge. I understand
+                                that this is a prototype appointment
+                                request system and submitting this form
+                                does not guarantee doctor availability
+                                or a confirmed hospital appointment.
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ACTION BUTTONS -->
+
+                <div class="actions">
+
+                    <a
+                        href="{{ url_for('home') }}"
+                        class="btn btn-secondary"
+                    >
+                        ← Back to Home
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        📅 Submit Appointment Request
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <strong>
+            Smart Health Assistant
+        </strong>
+
+        <br>
+
+        Preliminary educational health screening
+        and appointment support system.
+
+        <br><br>
+
+        This application does not provide medical diagnosis
+        or emergency medical services.
+
+    </footer>
+
+
+    <!-- =========================
+         DATE VALIDATION
+    ========================== -->
+
+    <script>
+
+        const appointmentDate =
+            document.getElementById(
+                "appointment_date"
+            );
+
+        if (appointmentDate) {
+
+            const today =
+                new Date();
+
+            const year =
+                today.getFullYear();
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(2, "0");
+
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(2, "0");
+
+            const minimumDate =
+                `${year}-${month}-${day}`;
+
+            appointmentDate.min =
+                minimumDate;
+        }
+
+
+        const phoneInput =
+            document.getElementById(
+                "phone"
+            );
+
+        if (phoneInput) {
+
+            phoneInput.addEventListener(
+                "input",
+                function () {
+
+                    this.value =
+                        this.value
+                            .replace(
+                                /[^0-9]/g,
+                                ""
+                            )
+                            .slice(
+                                0,
+                                10
+                            );
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
